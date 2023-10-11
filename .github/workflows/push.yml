@@ -1,0 +1,35 @@
+name: 'Build & Deploy project000-backend-recommend'
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    name: Build and Deploy
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: build and push docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./recommend
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/project000-backend-recommend:latest
+
+      # TODO: Add deployment step here
