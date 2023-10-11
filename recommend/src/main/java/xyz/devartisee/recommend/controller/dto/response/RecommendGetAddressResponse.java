@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class GetAddressResponse {
+public class RecommendGetAddressResponse {
 
     String userId;
     String address;

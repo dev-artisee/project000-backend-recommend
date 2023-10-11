@@ -1,18 +1,19 @@
 package xyz.devartisee.recommend.controller;
 
-import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import xyz.devartisee.recommend.controller.dto.base.BaseResponse;
-import xyz.devartisee.recommend.controller.dto.requset.PatchAddressRequest;
-import xyz.devartisee.recommend.controller.dto.requset.PostAddressRequest;
-import xyz.devartisee.recommend.controller.dto.response.GetAddressResponse;
+import xyz.devartisee.recommend.controller.dto.base.PaginationResponse;
+import xyz.devartisee.recommend.controller.dto.requset.RecommendPatchAddressRequest;
+import xyz.devartisee.recommend.controller.dto.requset.RecommendPostAddressRequest;
+import xyz.devartisee.recommend.controller.dto.response.RecommendGetAddressResponse;
+import xyz.devartisee.recommend.controller.dto.response.RecommendGetPlaceResponse;
+import xyz.devartisee.recommend.controller.dto.response.RecordGetPlaceResponse;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Tag(
@@ -29,21 +30,21 @@ public class RecommendController {
     public ResponseEntity<BaseResponse> getAddress(@RequestParam String userId) {
 
         return ResponseEntity.ok(BaseResponse.of(200, "getAddress", List.of(
-                new GetAddressResponse(),
-                new GetAddressResponse()
+                new RecommendGetAddressResponse(),
+                new RecommendGetAddressResponse()
         )));
     }
 
     @Operation(summary = "주소 생성", description = "")
     @PostMapping("/address")
-    public ResponseEntity<BaseResponse> postAddress(@RequestBody PostAddressRequest request) {
+    public ResponseEntity<BaseResponse> postAddress(@RequestBody RecommendPostAddressRequest request) {
 
         return ResponseEntity.ok(BaseResponse.of(200, "postAddress", null));
     }
 
     @Operation(summary = "주소 수정", description = "")
     @PatchMapping("/address")
-    public ResponseEntity<BaseResponse> patchAddress(@RequestBody PatchAddressRequest request) {
+    public ResponseEntity<BaseResponse> patchAddress(@RequestBody RecommendPatchAddressRequest request) {
 
         return ResponseEntity.ok(BaseResponse.of(200, "patchAddress", null));
     }
@@ -53,6 +54,18 @@ public class RecommendController {
     public ResponseEntity<BaseResponse> deleteAddress(@RequestParam String userId, @RequestParam String addressId) {
 
         return ResponseEntity.ok(BaseResponse.of(200, "deleteAddress", null));
+    }
+
+    @Operation(summary = "위치 기반 음식점 리스트 조회", description = "")
+    @DeleteMapping("/place")
+    public ResponseEntity<BaseResponse> getRecommendPlace(@RequestParam String latitude, @RequestParam String longitude,
+                                                 @RequestParam String radius, @RequestParam String category) {
+
+        List<RecommendGetPlaceResponse> result = new ArrayList<>();
+        result.add(new RecommendGetPlaceResponse());
+        result.add(new RecommendGetPlaceResponse());
+
+        return ResponseEntity.ok(BaseResponse.of(200, "getPlace", result));
     }
 
 }
