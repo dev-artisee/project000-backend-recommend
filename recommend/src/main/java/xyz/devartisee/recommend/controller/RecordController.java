@@ -7,8 +7,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import xyz.devartisee.recommend.controller.dto.base.BaseResponse;
 import xyz.devartisee.recommend.controller.dto.base.PaginationResponse;
-import xyz.devartisee.recommend.controller.dto.requset.PostPlaceRequest;
-import xyz.devartisee.recommend.controller.dto.response.GetPlaceResponse;
+import xyz.devartisee.recommend.controller.dto.requset.RecordPostPlaceRequest;
+import xyz.devartisee.recommend.controller.dto.requset.RecordPostRatingRequest;
+import xyz.devartisee.recommend.controller.dto.response.RecordGetPlaceResponse;
 
 import java.util.List;
 
@@ -26,15 +27,15 @@ public class RecordController {
     public ResponseEntity<BaseResponse> getPlace(@RequestParam String userId, @RequestParam Integer pageNo, @RequestParam Integer pageSize,
                                                  @RequestParam Boolean isDateAsc, @RequestParam String rating) {
 
-        PaginationResponse<GetPlaceResponse> result = new PaginationResponse<>();
-        result.setList(List.of(new GetPlaceResponse(), new GetPlaceResponse()));
+        PaginationResponse<RecordGetPlaceResponse> result = new PaginationResponse<>();
+        result.setList(List.of(new RecordGetPlaceResponse(), new RecordGetPlaceResponse()));
 
         return ResponseEntity.ok(BaseResponse.of(200, "getPlace", result));
     }
 
     @Operation(summary = "유저 그룹 장소(북마크) 생성", description = "")
     @PostMapping("/place")
-    public ResponseEntity<BaseResponse> postPlace(@RequestBody PostPlaceRequest request) {
+    public ResponseEntity<BaseResponse> postPlace(@RequestBody RecordPostPlaceRequest request) {
 
         return ResponseEntity.ok(BaseResponse.of(200, "postPlace", null));
     }
@@ -44,5 +45,19 @@ public class RecordController {
     public ResponseEntity<BaseResponse> deletePlace(@RequestParam String userId, @RequestParam String placeId) {
 
         return ResponseEntity.ok(BaseResponse.of(200, "deletePlace", null));
+    }
+
+    @Operation(summary = "별점 생성", description = "")
+    @PostMapping("/rating")
+    public ResponseEntity<BaseResponse> postRating(@RequestBody RecordPostRatingRequest request) {
+
+        return ResponseEntity.ok(BaseResponse.of(200, "postRating", null));
+    }
+
+    @Operation(summary = "별점 수정", description = "")
+    @PatchMapping("/rating")
+    public ResponseEntity<BaseResponse> patchRating(@RequestBody RecordPostRatingRequest request) {
+
+        return ResponseEntity.ok(BaseResponse.of(200, "patchRating", null));
     }
 }

@@ -5,9 +5,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class GetPlaceResponse {
+@NoArgsConstructor
+public class RecommendGetPlaceResponse {
 
     String addressName;
     String categoryName;
@@ -15,5 +15,6 @@ public class GetPlaceResponse {
     String placeName;
     String placeUrl;
     String roadAddressName;
-    String rating;
+    String latitude;
+    String longitude;
 }

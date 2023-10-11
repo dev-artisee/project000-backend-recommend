@@ -3,8 +3,9 @@ package xyz.devartisee.recommend.controller.dto.requset;
 import lombok.Data;
 
 @Data
-public class PostPlaceRequest {
-    
+public class RecordPostRatingRequest {
+
     String userId;
     String placeId;
+    String rating;
 }
