@@ -6,11 +6,11 @@ import lombok.Data;
 @Data
 public class Meta{
 	@JsonProperty
-	private Integer totalCount;
+	private Integer total_count;
 	@JsonProperty
-	private Boolean isEnd;
+	private Boolean is_end;
 	@JsonProperty
-	private Integer pageableCount;
+	private Integer pageable_count;
 	@JsonProperty
-	private Object sameName;
+	private Object same_name;
 }

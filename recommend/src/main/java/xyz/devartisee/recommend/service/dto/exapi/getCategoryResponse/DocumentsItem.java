@@ -6,27 +6,27 @@ import lombok.Data;
 @Data
 public class DocumentsItem{
 	@JsonProperty
-	private String placeUrl;
+	private String place_url;
 	@JsonProperty
-	private String placeName;
+	private String place_name;
 	@JsonProperty
-	private String roadAddressName;
+	private String road_address_name;
 	@JsonProperty
-	private String categoryGroupName;
+	private String category_group_name;
 	@JsonProperty
-	private String categoryName;
+	private String category_name;
 	@JsonProperty
 	private String distance;
 	@JsonProperty
 	private String phone;
 	@JsonProperty
-	private String categoryGroupCode;
+	private String category_group_code;
 	@JsonProperty
 	private String x;
 	@JsonProperty
 	private String y;
 	@JsonProperty
-	private String addressName;
+	private String address_name;
 	@JsonProperty
 	private String id;
 }
