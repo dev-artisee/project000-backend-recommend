@@ -2,7 +2,9 @@ package xyz.devartisee.recommend.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import xyz.devartisee.recommend.controller.dto.base.BaseResponse;
@@ -12,6 +14,8 @@ import xyz.devartisee.recommend.controller.dto.requset.RecommendPostAddressReque
 import xyz.devartisee.recommend.controller.dto.response.RecommendGetAddressResponse;
 import xyz.devartisee.recommend.controller.dto.response.RecommendGetPlaceResponse;
 import xyz.devartisee.recommend.controller.dto.response.RecordGetPlaceResponse;
+import xyz.devartisee.recommend.service.MapService;
+import xyz.devartisee.recommend.service.dto.request.GetPlaceRequest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +28,10 @@ import java.util.List;
 @RequestMapping("/recommend")
 @RequiredArgsConstructor
 public class RecommendController {
+
+    @Autowired
+    private MapService mapService;
+
 
     @Operation(summary = "주소 조회", description = "회원 아이디로 주소 조회하여 주소에 대한 배열 반환")
     @GetMapping("/address")
@@ -57,9 +65,11 @@ public class RecommendController {
     }
 
     @Operation(summary = "위치 기반 음식점 리스트 조회", description = "")
-    @DeleteMapping("/place")
+    @GetMapping("/place")
     public ResponseEntity<BaseResponse> getRecommendPlace(@RequestParam String latitude, @RequestParam String longitude,
                                                  @RequestParam String radius, @RequestParam String category) {
+
+        mapService.getPlaceList(new GetPlaceRequest(latitude, longitude, radius, category));
 
         List<RecommendGetPlaceResponse> result = new ArrayList<>();
         result.add(new RecommendGetPlaceResponse());
