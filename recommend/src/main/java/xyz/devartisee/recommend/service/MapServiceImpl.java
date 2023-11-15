@@ -10,7 +10,9 @@ import xyz.devartisee.recommend.service.dto.exapi.getCategoryResponse.GetCategor
 import xyz.devartisee.recommend.service.dto.request.GetPlaceRequest;
 import xyz.devartisee.recommend.service.dto.response.GetPlaceResponse;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @RequiredArgsConstructor
 @Transactional
@@ -26,7 +28,6 @@ public class MapServiceImpl implements MapService {
     public List<GetPlaceResponse> getPlaceList(GetPlaceRequest request) {
 
         GetCategoryResponse getCategoryResponse;
-
         getCategoryResponse = webClient.get().uri(uriBuilder -> uriBuilder.path("/v2/local/search/category.json")
                         .queryParam("category_group_code", "FD6")
                         .queryParam("x", request.getLongitude().toString())
@@ -35,8 +36,22 @@ public class MapServiceImpl implements MapService {
                         .build())
                 .retrieve()
                 .bodyToMono(GetCategoryResponse.class).block();
-
-        return null;
+        List<GetPlaceResponse> getPlaceResponseList = new ArrayList<>();
+        for (int i = 0; i < Objects.requireNonNull(getCategoryResponse).getDocuments().size(); i++) {
+            getPlaceResponseList.add(
+                    GetPlaceResponse.builder()
+                            .addressName(getCategoryResponse.getDocuments().get(i).getAddress_name())
+                            .categoryName(getCategoryResponse.getDocuments().get(i).getCategory_name())
+                            .phone(getCategoryResponse.getDocuments().get(i).getPhone())
+                            .placeName(getCategoryResponse.getDocuments().get(i).getPlace_name())
+                            .placeUrl(getCategoryResponse.getDocuments().get(i).getPlace_url())
+                            .roadAddressName(getCategoryResponse.getDocuments().get(i).getRoad_address_name())
+                            .latitude(getCategoryResponse.getDocuments().get(i).getY())
+                            .longitude(getCategoryResponse.getDocuments().get(i).getX())
+                            .build()
+            );
+        }
+        return getPlaceResponseList;
     }
     // 카테고리로 장소 검색하기 - 카테고리 그룹 코드
     //MT1	대형마트
@@ -62,6 +77,5 @@ public class MapServiceImpl implements MapService {
 //
 //    }
 
-    // TODO: 10/31/23 web client 추가... ( 커밋 메시지에 기록 )
 }
 

@@ -2,20 +2,18 @@ package xyz.devartisee.recommend.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import xyz.devartisee.recommend.controller.dto.base.BaseResponse;
-import xyz.devartisee.recommend.controller.dto.base.PaginationResponse;
 import xyz.devartisee.recommend.controller.dto.requset.RecommendPatchAddressRequest;
 import xyz.devartisee.recommend.controller.dto.requset.RecommendPostAddressRequest;
 import xyz.devartisee.recommend.controller.dto.response.RecommendGetAddressResponse;
 import xyz.devartisee.recommend.controller.dto.response.RecommendGetPlaceResponse;
-import xyz.devartisee.recommend.controller.dto.response.RecordGetPlaceResponse;
 import xyz.devartisee.recommend.service.MapService;
 import xyz.devartisee.recommend.service.dto.request.GetPlaceRequest;
+import xyz.devartisee.recommend.service.dto.response.GetPlaceResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,12 +67,23 @@ public class RecommendController {
     public ResponseEntity<BaseResponse> getRecommendPlace(@RequestParam String latitude, @RequestParam String longitude,
                                                  @RequestParam String radius, @RequestParam String category) {
 
-        mapService.getPlaceList(new GetPlaceRequest(latitude, longitude, radius, category));
-
         List<RecommendGetPlaceResponse> result = new ArrayList<>();
-        result.add(new RecommendGetPlaceResponse());
-        result.add(new RecommendGetPlaceResponse());
-
+        List<GetPlaceResponse> mapServicePlaceList = mapService.getPlaceList(new GetPlaceRequest(latitude, longitude, radius, category));
+        for (int i = 0; i < mapServicePlaceList.size(); i++) {
+            result.add(
+                    RecommendGetPlaceResponse.builder()
+                            .addressName(mapServicePlaceList.get(i).getAddressName())
+                            .categoryName(mapServicePlaceList.get(i).getCategoryName())
+                            .phone(mapServicePlaceList.get(i).getPhone())
+                            .placeName(mapServicePlaceList.get(i).getPlaceName())
+                            .placeUrl(mapServicePlaceList.get(i).getPlaceUrl())
+                            .roadAddressName(mapServicePlaceList.get(i).getRoadAddressName())
+                            .placeName(mapServicePlaceList.get(i).getPlaceName())
+                            .latitude(mapServicePlaceList.get(i).getLatitude())
+                            .longitude(mapServicePlaceList.get(i).getLongitude())
+                            .build()
+            );
+        }
         return ResponseEntity.ok(BaseResponse.of(200, "getPlace", result));
     }
 
