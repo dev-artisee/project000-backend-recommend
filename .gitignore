@@ -23,6 +23,8 @@
 hs_err_pid*
 replay_pid*
 
-# ide
+# project files
 .idea/
 .vscode/
+
+.DS_Store
