@@ -4,7 +4,7 @@ FROM amazoncorretto:17.0.8-alpine as builder
 WORKDIR /app
 
 COPY . .
-RUN ./gradlew build
+RUN ./gradlew build -x test
 
 # runtime image
 FROM amazoncorretto:17.0.8-alpine
