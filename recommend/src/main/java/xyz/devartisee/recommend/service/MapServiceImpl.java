@@ -6,9 +6,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
+import xyz.devartisee.recommend.controller.dto.response.RecommendGetAddressResponse;
+import xyz.devartisee.recommend.entity.UserAddress;
+import xyz.devartisee.recommend.repository.UserAddressRepository;
 import xyz.devartisee.recommend.service.dto.exapi.getCategoryResponse.GetCategoryResponse;
 import xyz.devartisee.recommend.service.dto.request.GetPlaceRequest;
+import xyz.devartisee.recommend.service.dto.request.GetUserAddressRequest;
 import xyz.devartisee.recommend.service.dto.response.GetPlaceResponse;
+import xyz.devartisee.recommend.service.dto.response.GetUserAddressResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,14 +24,34 @@ import java.util.Objects;
 @Service
 public class MapServiceImpl implements MapService {
 
+    private final UserAddressRepository userAddressRepository;
+
     WebClient webClient = WebClient.builder()
                             .baseUrl("https://dapi.kakao.com")
                             .defaultHeader(HttpHeaders.AUTHORIZATION, "KakaoAK eac97934f12a27f83e1c9cdd30f46041")
                             .build();
 
+
+    @Override
+    public List<GetUserAddressResponse> getAddress(GetUserAddressRequest request) {
+        List<GetUserAddressResponse> response = new ArrayList<>();
+        List<UserAddress> userAddressList = userAddressRepository.findUserAddressByUserId(Long.valueOf(request.getUserId()));
+        for (int i = 0; i < userAddressList.size(); i++) {
+            response.add(
+                GetUserAddressResponse.builder()
+                        .id(String.valueOf(userAddressList.get(i).getId()))
+                        .userId(userAddressList.get(i).getUserId())
+                        .address(userAddressList.get(i).getAddressName())
+                        .latitude(userAddressList.get(i).getLatitude())
+                        .longitude(userAddressList.get(i).getLongitude())
+                        .build()
+            );
+        }
+        return response;
+    }
+
     @Override
     public List<GetPlaceResponse> getPlaceList(GetPlaceRequest request) {
-
         GetCategoryResponse getCategoryResponse;
         getCategoryResponse = webClient.get().uri(uriBuilder -> uriBuilder.path("/v2/local/search/category.json")
                         .queryParam("category_group_code", "FD6")

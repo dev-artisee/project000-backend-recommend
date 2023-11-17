@@ -27,8 +27,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RecommendController {
 
-    @Autowired
-    private MapService mapService;
+    private final MapService mapService;
 
 
     @Operation(summary = "주소 조회", description = "회원 아이디로 주소 조회하여 주소에 대한 배열 반환")
