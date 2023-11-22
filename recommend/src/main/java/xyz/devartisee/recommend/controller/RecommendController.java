@@ -13,7 +13,9 @@ import xyz.devartisee.recommend.controller.dto.response.RecommendGetAddressRespo
 import xyz.devartisee.recommend.controller.dto.response.RecommendGetPlaceResponse;
 import xyz.devartisee.recommend.service.MapService;
 import xyz.devartisee.recommend.service.dto.request.GetPlaceRequest;
+import xyz.devartisee.recommend.service.dto.request.GetUserAddressRequest;
 import xyz.devartisee.recommend.service.dto.response.GetPlaceResponse;
+import xyz.devartisee.recommend.service.dto.response.GetUserAddressResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,18 +35,33 @@ public class RecommendController {
     @Operation(summary = "주소 조회", description = "회원 아이디로 주소 조회하여 주소에 대한 배열 반환")
     @GetMapping("/address")
     public ResponseEntity<BaseResponse> getAddress(@RequestParam String userId) {
-
-        return ResponseEntity.ok(BaseResponse.of(200, "getAddress", List.of(
-                new RecommendGetAddressResponse(),
-                new RecommendGetAddressResponse()
-        )));
+        List<GetUserAddressResponse> address = mapService.getAddress(
+                                                        GetUserAddressRequest.builder()
+                                                                .userId(userId)
+                                                                .build()
+                                                );
+        return ResponseEntity.ok(BaseResponse.of(200, "getAddress", address));
     }
 
     @Operation(summary = "주소 생성", description = "")
     @PostMapping("/address")
     public ResponseEntity<BaseResponse> postAddress(@RequestBody RecommendPostAddressRequest request) {
-
-        return ResponseEntity.ok(BaseResponse.of(200, "postAddress", null));
+        GetUserAddressResponse response = mapService.addAddress(
+                GetUserAddressRequest.builder()
+                        .userId(request.getUserId())
+                        .addressName(request.getAddress())
+                        .latitude(request.getLatitude())
+                        .longitude(request.getLongitude())
+                        .build()
+        );
+        return ResponseEntity.ok(BaseResponse.of(200, "postAddress",
+                RecommendGetAddressResponse.builder()
+                        .userId(response.getUserId())
+                        .address(response.getAddress())
+                        .latitude(response.getLatitude())
+                        .longitude(response.getLongitude())
+                        .build()
+                ));
     }
 
     @Operation(summary = "주소 수정", description = "")

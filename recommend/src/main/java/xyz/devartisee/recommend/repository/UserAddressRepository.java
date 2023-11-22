@@ -7,5 +7,9 @@ import java.util.List;
 
 public interface UserAddressRepository extends JpaRepository<UserAddress, Long> {
 
+    @Override
+    <S extends UserAddress> S save(S entity);
     List<UserAddress> findUserAddressByUserId(Long userId);
+
+
 }

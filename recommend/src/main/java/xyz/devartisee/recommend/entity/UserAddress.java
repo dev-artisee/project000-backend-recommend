@@ -5,6 +5,8 @@ import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
 
+import java.math.BigDecimal;
+
 @Data
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
@@ -21,15 +23,15 @@ public class UserAddress {
 
 //    @NotEmpty
     @Column(name = "user_id")
-    private String userId;
+    private Long userId;
 
     @Column(name = "address_name")
     private String addressName;
 
     @Column(name = "latitude")
-    private String latitude;
+    private Decimal latitude;
 
     @Column(name = "longitude")
-    private String longitude;
+    private BigDecimal longitude;
 
 }

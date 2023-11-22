@@ -12,6 +12,8 @@ public interface MapService {
 
     List<GetUserAddressResponse> getAddress(GetUserAddressRequest request);
 
+    GetUserAddressResponse addAddress(GetUserAddressRequest request);
+
     List<GetPlaceResponse> getPlaceList(GetPlaceRequest request);
 
 }

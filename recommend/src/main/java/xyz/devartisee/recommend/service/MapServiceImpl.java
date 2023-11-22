@@ -2,11 +2,9 @@ package xyz.devartisee.recommend.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
-import xyz.devartisee.recommend.controller.dto.response.RecommendGetAddressResponse;
 import xyz.devartisee.recommend.entity.UserAddress;
 import xyz.devartisee.recommend.repository.UserAddressRepository;
 import xyz.devartisee.recommend.service.dto.exapi.getCategoryResponse.GetCategoryResponse;
@@ -15,6 +13,7 @@ import xyz.devartisee.recommend.service.dto.request.GetUserAddressRequest;
 import xyz.devartisee.recommend.service.dto.response.GetPlaceResponse;
 import xyz.devartisee.recommend.service.dto.response.GetUserAddressResponse;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -40,14 +39,33 @@ public class MapServiceImpl implements MapService {
             response.add(
                 GetUserAddressResponse.builder()
                         .id(String.valueOf(userAddressList.get(i).getId()))
-                        .userId(userAddressList.get(i).getUserId())
+                        .userId(String.valueOf(userAddressList.get(i).getUserId()))
                         .address(userAddressList.get(i).getAddressName())
-                        .latitude(userAddressList.get(i).getLatitude())
-                        .longitude(userAddressList.get(i).getLongitude())
+                        .latitude(String.valueOf(userAddressList.get(i).getLatitude()))
+                        .longitude(String.valueOf(userAddressList.get(i).getLongitude()))
                         .build()
             );
         }
         return response;
+    }
+
+    @Override
+    public GetUserAddressResponse addAddress(GetUserAddressRequest request) {
+        UserAddress userAddress = userAddressRepository.save(
+                UserAddress.builder()
+                        .userId(Long.valueOf(request.getUserId()))
+                        .addressName(request.getAddressName())
+                        .latitude(BigDecimal.valueOf(Long.parseLong(String.valueOf(request.getLatitude()))))
+                        .longitude(BigDecimal.valueOf(Long.parseLong(String.valueOf(request.getLongitude()))))
+                        .build()
+        );
+
+        return GetUserAddressResponse.builder()
+                .userId(String.valueOf(userAddress.getUserId()))
+                .address(userAddress.getAddressName())
+                .latitude(String.valueOf(userAddress.getLatitude()))
+                .longitude(String.valueOf(userAddress.getLongitude()))
+                .build();
     }
 
     @Override
