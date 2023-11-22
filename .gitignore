@@ -27,4 +27,9 @@ replay_pid*
 .idea/
 .vscode/
 
+# IntelliJ IDEA
+*.iml
+.idea/modules.xml
+
+
 .DS_Store
