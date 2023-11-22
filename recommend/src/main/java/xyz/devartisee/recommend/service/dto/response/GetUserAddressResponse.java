@@ -1,15 +1,13 @@
-package xyz.devartisee.recommend.controller.dto.response;
+package xyz.devartisee.recommend.service.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@Data
 @AllArgsConstructor
-@NoArgsConstructor
+@Data
 @Builder
-public class RecommendGetAddressResponse {
+public class GetUserAddressResponse {
 
     String id;
     String userId;
