@@ -29,7 +29,7 @@ public class UserAddress {
     private String addressName;
 
     @Column(name = "latitude")
-    private Decimal latitude;
+    private BigDecimal latitude;
 
     @Column(name = "longitude")
     private BigDecimal longitude;
