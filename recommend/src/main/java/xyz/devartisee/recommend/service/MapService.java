@@ -1,6 +1,7 @@
 package xyz.devartisee.recommend.service;
 
 import xyz.devartisee.recommend.controller.dto.response.RecommendGetAddressResponse;
+import xyz.devartisee.recommend.service.dto.request.DeleteUserAddressRequest;
 import xyz.devartisee.recommend.service.dto.request.GetPlaceRequest;
 import xyz.devartisee.recommend.service.dto.request.GetUserAddressRequest;
 import xyz.devartisee.recommend.service.dto.response.GetPlaceResponse;
@@ -13,6 +14,10 @@ public interface MapService {
     List<GetUserAddressResponse> getAddress(GetUserAddressRequest request);
 
     GetUserAddressResponse addAddress(GetUserAddressRequest request);
+
+    GetUserAddressResponse updateAddress(GetUserAddressRequest request);
+
+    void deleteAddress(DeleteUserAddressRequest request);
 
     List<GetPlaceResponse> getPlaceList(GetPlaceRequest request);
 

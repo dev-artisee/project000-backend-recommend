@@ -12,6 +12,7 @@ import xyz.devartisee.recommend.controller.dto.requset.RecommendPostAddressReque
 import xyz.devartisee.recommend.controller.dto.response.RecommendGetAddressResponse;
 import xyz.devartisee.recommend.controller.dto.response.RecommendGetPlaceResponse;
 import xyz.devartisee.recommend.service.MapService;
+import xyz.devartisee.recommend.service.dto.request.DeleteUserAddressRequest;
 import xyz.devartisee.recommend.service.dto.request.GetPlaceRequest;
 import xyz.devartisee.recommend.service.dto.request.GetUserAddressRequest;
 import xyz.devartisee.recommend.service.dto.response.GetPlaceResponse;
@@ -67,14 +68,26 @@ public class RecommendController {
     @Operation(summary = "주소 수정", description = "")
     @PatchMapping("/address")
     public ResponseEntity<BaseResponse> patchAddress(@RequestBody RecommendPatchAddressRequest request) {
-
-        return ResponseEntity.ok(BaseResponse.of(200, "patchAddress", null));
+        GetUserAddressResponse response = mapService.updateAddress(
+                GetUserAddressRequest.builder()
+                        .userId(request.getUserId())
+                        .addressName(request.getAddress())
+                        .latitude(request.getLatitude())
+                        .longitude(request.getLongitude())
+                        .build()
+        );
+        return ResponseEntity.ok(BaseResponse.of(200, "patchAddress", response));
     }
 
     @Operation(summary = "주소 삭제", description = "")
     @DeleteMapping("/address")
     public ResponseEntity<BaseResponse> deleteAddress(@RequestParam String userId, @RequestParam String addressId) {
-
+        mapService.deleteAddress(
+                DeleteUserAddressRequest.builder()
+                        .id(addressId)
+                        .userId(userId)
+                        .build()
+        );
         return ResponseEntity.ok(BaseResponse.of(200, "deleteAddress", null));
     }
 

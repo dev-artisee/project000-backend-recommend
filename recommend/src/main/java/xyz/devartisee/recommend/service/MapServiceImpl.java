@@ -8,12 +8,12 @@ import org.springframework.web.reactive.function.client.WebClient;
 import xyz.devartisee.recommend.entity.UserAddress;
 import xyz.devartisee.recommend.repository.UserAddressRepository;
 import xyz.devartisee.recommend.service.dto.exapi.getCategoryResponse.GetCategoryResponse;
+import xyz.devartisee.recommend.service.dto.request.DeleteUserAddressRequest;
 import xyz.devartisee.recommend.service.dto.request.GetPlaceRequest;
 import xyz.devartisee.recommend.service.dto.request.GetUserAddressRequest;
 import xyz.devartisee.recommend.service.dto.response.GetPlaceResponse;
 import xyz.devartisee.recommend.service.dto.response.GetUserAddressResponse;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -68,6 +68,20 @@ public class MapServiceImpl implements MapService {
                 .latitude(String.valueOf(userAddress.getLatitude()))
                 .longitude(String.valueOf(userAddress.getLongitude()))
                 .build();
+    }
+
+    @Override
+    public GetUserAddressResponse updateAddress(GetUserAddressRequest request) {
+        if(userAddressRepository.existsById(Long.valueOf(request.getUserId()))) {
+            return addAddress(request);
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public void deleteAddress(DeleteUserAddressRequest request) {
+        userAddressRepository.deleteById(Long.valueOf(request.getId()));
     }
 
     @Override
