@@ -55,8 +55,10 @@ public class MapServiceImpl implements MapService {
                 UserAddress.builder()
                         .userId(Long.valueOf(request.getUserId()))
                         .addressName(request.getAddressName())
-                        .latitude(BigDecimal.valueOf(Long.parseLong(String.valueOf(request.getLatitude()))))
-                        .longitude(BigDecimal.valueOf(Long.parseLong(String.valueOf(request.getLongitude()))))
+//                        .latitude(BigDecimal.valueOf(Long.parseLong(String.valueOf(request.getLatitude()))))
+                        .latitude(request.getLatitude())
+//                        .longitude(BigDecimal.valueOf(Long.parseLong(String.valueOf(request.getLongitude()))))
+                        .longitude(request.getLongitude())
                         .build()
         );
 
