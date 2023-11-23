@@ -36,7 +36,7 @@ jobs:
           build-args: |
             ENVIRONMENT_PROFILE=${{ env.ENVIRONMENT_PROFILE }}
           secrets: |
-            "jasypt_encryptor_password=${{ secrets.JASYPT_ENCRYPTOR_PASSWORD }}"
+            "jasypt_encryptor_key=${{ secrets.JASYPT_ENCRYPTOR_KEY }}"
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/project000-backend-recommend:latest
 
       - name: Deploy vis SSH
