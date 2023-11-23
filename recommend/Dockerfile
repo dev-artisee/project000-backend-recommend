@@ -11,6 +11,13 @@ FROM amazoncorretto:17.0.8-alpine
 
 WORKDIR /app
 
+# spring profile setting
+ARG ENVIRONMENT_PROFILE
+
+# jasypt setting
+RUN --mount=type=secret,id=jasypt_encryptor_password \
+    export JASYPT_ENCRYPTOR_PASSWORD=$(cat /run/secrets/jasypt_encryptor_password)
+
 # timezone setting
 ENV TZ=Asia/Seoul
 RUN apk add --no-cache tzdata && \
@@ -21,4 +28,4 @@ COPY --from=builder /app/build/libs/*.jar ./app.jar
 
 EXPOSE 8080
 
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-jar", "app.jar", "--spring.profiles.active=${ENVIRONMENT_PROFILE}"]
