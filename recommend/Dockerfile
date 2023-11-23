@@ -14,10 +14,6 @@ WORKDIR /app
 # spring profile setting
 ARG ENVIRONMENT_PROFILE
 
-# jasypt setting
-RUN --mount=type=secret,id=jasypt_encryptor_key \
-    ENCRYPTOR_KEY=$(cat /run/secrets/jasypt_encryptor_key)
-
 # timezone setting
 ENV TZ=Asia/Seoul
 RUN apk add --no-cache tzdata && \
