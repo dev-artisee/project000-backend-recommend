@@ -15,8 +15,8 @@ WORKDIR /app
 ARG ENVIRONMENT_PROFILE
 
 # jasypt setting
-RUN --mount=type=secret,id=jasypt_encryptor_password \
-    export JASYPT_ENCRYPTOR_PASSWORD=$(cat /run/secrets/jasypt_encryptor_password)
+RUN --mount=type=secret,id=jasypt_encryptor_key \
+    export ENCRYPTOR.KEY=$(cat /run/secrets/jasypt_encryptor_key)
 
 # timezone setting
 ENV TZ=Asia/Seoul
