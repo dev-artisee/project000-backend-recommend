@@ -1,12 +1,12 @@
 name: 'Build & Deploy project000-backend-recommend'
 
 env:
-  ENVIRONMENT_PROFILE: dev
+  ENVIRONMENT_PROFILE: feature/fix-github-action-jasypt
 
 on:
   push:
     branches:
-      - main
+      - feature/fix-github-action-jasypt
   workflow_dispatch:
 
 jobs:
@@ -36,7 +36,7 @@ jobs:
           build-args: |
             ENVIRONMENT_PROFILE=${{ env.ENVIRONMENT_PROFILE }}
           secrets: |
-            "jasypt_encryptor_key=${{ secrets.JASYPT_ENCRYPTOR_KEY }}"
+            jasypt_encryptor_key=${{ secrets.JASYPT_ENCRYPTOR_KEY }}
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/project000-backend-recommend:latest
 
       - name: Deploy vis SSH
