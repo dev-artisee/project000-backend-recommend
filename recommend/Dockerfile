@@ -16,7 +16,7 @@ ARG ENVIRONMENT_PROFILE
 
 # jasypt setting
 RUN --mount=type=secret,id=jasypt_encryptor_key \
-    env "ENCRYPTOR.KEY=$(cat /run/secrets/jasypt_encryptor_key)"
+    export "ENCRYPTOR_KEY=$(cat /run/secrets/jasypt_encryptor_key)"
 
 # timezone setting
 ENV TZ=Asia/Seoul
