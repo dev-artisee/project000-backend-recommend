@@ -11,6 +11,9 @@ FROM amazoncorretto:17.0.8-alpine
 
 WORKDIR /app
 
+# spring profile setting
+ARG ENVIRONMENT_PROFILE
+
 # timezone setting
 ENV TZ=Asia/Seoul
 RUN apk add --no-cache tzdata && \
@@ -21,4 +24,4 @@ COPY --from=builder /app/build/libs/*.jar ./app.jar
 
 EXPOSE 8080
 
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-jar", "app.jar", "--Dspring.profiles.active=${ENVIRONMENT_PROFILE}"]

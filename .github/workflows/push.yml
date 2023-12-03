@@ -1,5 +1,8 @@
 name: 'Build & Deploy project000-backend-recommend'
 
+env:
+  ENVIRONMENT_PROFILE: dev
+
 on:
   push:
     branches:
@@ -30,6 +33,8 @@ jobs:
         with:
           context: ./recommend
           push: true
+          build-args: |
+            ENVIRONMENT_PROFILE=${{ env.ENVIRONMENT_PROFILE }}
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/project000-backend-recommend:latest
 
       - name: Deploy vis SSH
