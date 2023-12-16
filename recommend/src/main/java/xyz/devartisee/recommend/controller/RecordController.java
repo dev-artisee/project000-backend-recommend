@@ -1,6 +1,9 @@
 package xyz.devartisee.recommend.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +13,8 @@ import xyz.devartisee.recommend.controller.dto.base.PaginationResponse;
 import xyz.devartisee.recommend.controller.dto.requset.RecordPostPlaceRequest;
 import xyz.devartisee.recommend.controller.dto.requset.RecordPostRatingRequest;
 import xyz.devartisee.recommend.controller.dto.response.RecordGetPlaceResponse;
+import xyz.devartisee.recommend.service.RecordService;
+import xyz.devartisee.recommend.service.dto.request.GetUserPlaceRequest;
 
 import java.util.List;
 
@@ -22,10 +27,22 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RecordController {
 
+    private final RecordService recordService;
+
     @Operation(summary = "유저 그룹 장소(북마크) 조회", description = "")
     @GetMapping("/place")
-    public ResponseEntity<BaseResponse> getPlace(@RequestParam String userId, @RequestParam Integer pageNo, @RequestParam Integer pageSize,
+    public ResponseEntity<BaseResponse> getPlace(@RequestParam String userId, @RequestParam @Parameter() Integer pageNo, @RequestParam Integer pageSize,
                                                  @RequestParam Boolean isDateAsc, @RequestParam String rating) {
+
+        recordService.getUserPlaceResponsePage(
+            GetUserPlaceRequest.builder()
+                            .userId(userId)
+                            .pageNo(pageNo)
+                            .pageSize(pageSize)
+                            .isDateAsc(isDateAsc)
+                            .rating(rating)
+                            .build()
+        );
 
         PaginationResponse<RecordGetPlaceResponse> result = new PaginationResponse<>();
         result.setList(List.of(new RecordGetPlaceResponse(), new RecordGetPlaceResponse()));

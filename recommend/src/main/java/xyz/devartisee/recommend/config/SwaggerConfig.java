@@ -19,6 +19,10 @@ import org.springframework.context.annotation.Configuration;
                 @Server(
                         url = "https://dev-artisee.xyz/api",
                         description = "default server url"
+                ),
+                @Server(
+                        url = "http://localhost:8080",
+                        description = "local server url"
                 )
         }
 )
